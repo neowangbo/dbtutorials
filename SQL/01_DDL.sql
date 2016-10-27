@@ -44,12 +44,6 @@ INSERT INTO books VALUES (5, 'The Paper Menagerie and Other Stories', TIMESTAMP'
 INSERT INTO books VALUES (6, 'Invisible Planets', TIMESTAMP'2016-11-01 00:00:00',2);
 INSERT INTO books VALUES (7, 'Misery', TIMESTAMP'1987-01-01 00:00:00',3);
 
-
-
---DELETE FROM books WHERE id=3;
-SELECT * FROM authors;
-SELECT * FROM books;
-
 --Create a VIEW
 CREATE OR REPLACE VIEW authors_books AS
 SELECT A.ID author_id,
