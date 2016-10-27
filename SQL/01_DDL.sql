@@ -34,14 +34,34 @@ CREATE INDEX books_fk_index ON books(author_id);
 -- Insert some data
 INSERT INTO authors VALUES (1,'Liu Cixin',TIMESTAMP'1963-06-23 00:00:00','M');
 INSERT INTO authors VALUES (2,'Liu Ken',TIMESTAMP'1976-01-01 00:00:00','M');
+INSERT INTO authors VALUES (3,'Stephen King',TIMESTAMP'1947-09-21 00:00:00','M');
 
 INSERT INTO books VALUES (1, 'The Three-Body Problem', TIMESTAMP'2007-01-01 00:00:00',1);
 INSERT INTO books VALUES (2, 'The Dark Forest', TIMESTAMP'2008-01-01 00:00:00',1);
 INSERT INTO books VALUES (3, 'Death''s End', TIMESTAMP'2010-01-01 00:00:00',1);
+INSERT INTO books VALUES (4, 'The War of Storm', TIMESTAMP'2016-10-04 00:00:00',2);
+INSERT INTO books VALUES (5, 'The Paper Menagerie and Other Stories', TIMESTAMP'2015-01-01 00:00:00',2);
+INSERT INTO books VALUES (6, 'Invisible Planets', TIMESTAMP'2016-11-01 00:00:00',2);
+INSERT INTO books VALUES (7, 'Misery', TIMESTAMP'1987-01-01 00:00:00',3);
+
+
 
 --DELETE FROM books WHERE id=3;
-
 SELECT * FROM authors;
 SELECT * FROM books;
+
+--Create a VIEW
+CREATE OR REPLACE VIEW authors_books AS
+SELECT A.ID author_id,
+       A.NAME author_name,
+       A.GENDER author_gender,
+       A.BIRTHDAY author_birthday,
+       B.ID book_id,
+       B.TITLE book_title,
+       B.PUBLISHED_DATE book_published 
+FROM authors A,books B 
+WHERE A.ID=B.AUTHOR_ID 
+ORDER BY A.NAME,B.PUBLISHED_DATE;
+
 
 
