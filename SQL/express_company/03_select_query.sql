@@ -123,15 +123,135 @@ COMMIT;
 SELECT * FROM persons WHERE PERSONBIRTHDAY IS NULL;
 SELECT * FROM persons WHERE PERSONBIRTHDAY IS NOT NULL;
 
--- FUNCTIONS
--- avg(COLUMN)
+/* FUNCTIONS */
+-- AVG()
 SELECT AVG(quantity) FROM orderdetails;
 SELECT * FROM orderdetails WHERE quantity > (SELECT AVG(quantity) FROM orderdetails) ORDER BY quantity;
--- count(COLUMN) to count the values of specific column except NULL values
+-- Count() to count the values of specific column except NULL values
 SELECT COUNT(*),COUNT(personname),COUNT(personbirthday) FROM persons;
--- first(COLUMN)
+-- First
 SELECT * FROM persons WHERE ROWNUM<=1;
 SELECT * FROM persons WHERE ROWNUM<=1;
+-- natural order
+SELECT personbirthday FROM persons ORDER BY personbirthday;
+-- First value of one column
+SELECT personbirthday FROM persons WHERE ROWNUM<=1 ORDER BY personbirthday ASC;
+SELECT personbirthday FROM (SELECT personbirthday FROM persons ORDER BY personbirthday ASC) WHERE ROWNUM<=1;
+SELECT personbirthday FROM persons ORDER BY personbirthday ASC;
+-- Last value of one column
+SELECT personbirthday FROM persons WHERE ROWNUM<=1 ORDER BY personbirthday DESC;
+
+-- MAX
+SELECT MAX(personbirthday) FROM persons;
+-- MIN
+SELECT MIN(personbirthday) FROM persons;
+-- SUM
+SELECT SUM(quantity) FROM orderDetails;
+-- GROUP BY - 1, orders sent by each shipper
+SELECT Shippers.ShipperName,COUNT(Orders.OrderID) AS NumberOfOrders FROM Orders
+LEFT JOIN Shippers
+ON Orders.ShipperID=Shippers.ShipperID
+GROUP BY ShipperName, Shippers.ShipperName;
+
+SELECT * FROM products;
+SELECT * FROM orders;
+SELECT * FROM orderDetails;
+
+-- GROUP BY - 2, How many orders of each product
+SELECT productid,SUM(quantity) FROM orderDetails GROUP BY productid ORDER BY productid;--simple
+SELECT O.PRODUCTID,P.PRODUCTNAME,SUM(O.QUANTITY) AS QUANTITY 
+FROM orderDetails O,products P 
+WHERE O.PRODUCTID=P.PRODUCTID 
+GROUP BY O.PRODUCTID,P.PRODUCTNAME ORDER BY O.PRODUCTID;--with product name
+
+-- GROUP BY - 3, How many orders of each customer
+SELECT O.CUSTOMERID,COUNT(O.ORDERID) FROM orders O GROUP BY O.CUSTOMERID ORDER BY O.CUSTOMERID;
+
+SELECT O.CUSTOMERID,C.CUSTOMERNAME,COUNT(O.ORDERID) AS Orders,C.CITY
+FROM orders O,customers C
+WHERE O.CUSTOMERID=C.CUSTOMERID
+GROUP BY O.CUSTOMERID,C.CUSTOMERNAME,C.CITY
+ORDER BY O.CUSTOMERID;
+
+-- HAVING (1)
+SELECT Employees.LastName, COUNT(Orders.OrderID) AS NumberOfOrders 
+FROM Orders
+INNER JOIN Employees
+ON Orders.EmployeeID=Employees.EmployeeID
+GROUP BY Employees.LastName
+HAVING COUNT(Orders.OrderID) > 10
+ORDER BY NumberOfOrders DESC;
+
+SELECT O.PRODUCTID,P.PRODUCTNAME,SUM(O.QUANTITY) AS QUANTITY 
+FROM orderDetails O,products P 
+WHERE O.PRODUCTID=P.PRODUCTID 
+GROUP BY O.PRODUCTID,P.PRODUCTNAME
+HAVING SUM(O.QUANTITY)>100
+ORDER BY QUANTITY DESC;
+
+-- ||
+SELECT e.EMPLOYEEID,e.FIRSTNAME||'.'||e.LASTNAME AS NAME FROM EMPLOYEES e;
+-- CONCAT
+SELECT e.EMPLOYEEID,CONCAT(CONCAT(e.FIRSTNAME,'.'),e.LASTNAME) AS NAME FROM EMPLOYEES e;
+-- UPPER
+SELECT e.EMPLOYEEID,UPPER(e.FIRSTNAME||'.'||e.LASTNAME) AS NAME FROM EMPLOYEES e;
+-- LOWER
+SELECT e.EMPLOYEEID,LOWER(e.FIRSTNAME||'.'||e.LASTNAME) AS NAME FROM EMPLOYEES e;
+-- NVL
+SELECT * FROM PERSONS;
+SELECT NVL(PERSONBIRTHDAY,TO_DATE('1990/08/09','YYYY/MM/DD')) FROM PERSONS;
+-- INSTR
+SELECT PERSONNAME,INSTR(PERSONNAME,'a') FROM PERSONS;
+-- SUBSTR
+SELECT PERSONNAME,
+       SUBSTR(PERSONNAME,1,1) AS First_Character,
+       SUBSTR(PERSONNAME,LENGTH(PERSONNAME),1) AS Last_Character 
+FROM PERSONS;
+--First character and last character
+-- LENGTH
+SELECT PERSONNAME,LENGTH(PERSONNAME) FROM PERSONS;
+-- RPAD and LPAD
+SELECT PERSONNAME,RPAD(PERSONNAME,10,'.') AS RPAD,LPAD(PERSONNAME,10,'.') AS LPAD FROM PERSONS;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
