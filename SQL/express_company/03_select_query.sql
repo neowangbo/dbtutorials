@@ -118,6 +118,8 @@ INSERT INTO persons (personName,personBirthday) VALUES('Stephen',to_date('1986-1
 INSERT INTO persons (personName,personBirthday) VALUES('Wang Bo',to_date('1979-8-8','YYYY-MM-DD'));
 INSERT INTO persons (personName,personBirthday) VALUES('Shufeng.Yan',to_date('1980-4-16','YYYY-MM-DD'));
 INSERT INTO persons (personName,personBirthday) VALUES('Wang Siyan',to_date('2008-12-16','YYYY-MM-DD'));
+INSERT INTO persons (personName,personBirthday) VALUES('Li Keqiang',to_date('1967-5-2','YYYY-MM-DD'));
+INSERT INTO persons (personName,personBirthday) VALUES('     Xi Jinping     ',to_date('1967-5-2','YYYY-MM-DD'));
 COMMIT;
 
 SELECT * FROM persons WHERE PERSONBIRTHDAY IS NULL;
@@ -213,50 +215,9 @@ SELECT PERSONNAME,LENGTH(PERSONNAME) FROM PERSONS;
 -- RPAD and LPAD
 SELECT PERSONNAME,RPAD(PERSONNAME,10,'.') AS RPAD,LPAD(PERSONNAME,10,'.') AS LPAD FROM PERSONS;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- TRIM, LTRIM and RTRIM
+SELECT '-'||personname||'-' AS NAME_0,
+       '-'||LTRIM(personname)||'-' AS NAME_LTRIM,
+       '-'||RTRIM(personname)||'-' AS NAME_RTRIM,
+       '-'||TRIM(personname)||'-' AS NAME_TRIM
+FROM persons;
