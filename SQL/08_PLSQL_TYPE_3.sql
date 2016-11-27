@@ -1,12 +1,20 @@
 /*
-Row type
+Record type
 */
 declare
 
 -- Declare a list
--- index, element (PERSONS.personname, PERSONS.personbirthday) <- table
-TYPE name_table IS TABLE OF PERSONS%ROWTYPE
-INDEX BY BINARY_INTEGER;
+-- index, element <- declare a new table (record)
+--TYPE name_record is record (
+--personname     PERSONS.personname%TYPE,
+--personbirthday PERSONS.personbirthday%TYPE);
+
+TYPE name_record IS RECORD (
+personname     varchar2(50),
+personbirthday date);
+
+TYPE name_table is table of name_record
+index by binary_integer;
 
 t_name name_table;
 
